@@ -14,7 +14,7 @@ const COMMIT_MESSAGE = "Auto generated";
 
 const main = async () => {
   const octo = new Octokit({
-    auth: "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",
+    auth: "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",
   });
   // listForOrg(org) or listForUser(username)
   const repos = await octo.rest.repos.listForOrg({
@@ -42,7 +42,7 @@ const createRepo = async (octo, org, name) => {
 const uploadToRepo = async (octo, coursePath, org, repo, branch) => {
   // gets commit's AND its tree's SHA
   const currentCommit = await getCurrentCommit(octo, org, repo, branch);
-  const filesPaths = await globby(["*", "!node_modules"]);
+  const filesPaths = await globby(["*", "/*", "!node_modules"]);
   const filesBlobs = await Promise.all(
     filesPaths.map(createBlobForFile(octo, org, repo))
   );
