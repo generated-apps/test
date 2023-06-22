@@ -47,7 +47,6 @@ const uploadToRepo = async (octo, coursePath, org, repo, branch) => {
   const filesPaths = await globby(["*", ".*"], {
     cwd: coursePath,
     gitignore: true,
-    dot: true,
   });
   const filesBlobs = await Promise.all(
     filesPaths.map(createBlobForFile(octo, org, repo))
