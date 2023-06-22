@@ -44,7 +44,10 @@ const createRepo = async (octo, org, name) => {
 const uploadToRepo = async (octo, coursePath, org, repo, branch) => {
   // gets commit's AND its tree's SHA
   const currentCommit = await getCurrentCommit(octo, org, repo, branch);
-  const filesPaths = await globby(".", {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  console.log(__filename);
+  const filesPaths = await globby("./", {
     gitignore: true,
   });
   const filesBlobs = await Promise.all(
