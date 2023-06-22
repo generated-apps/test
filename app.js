@@ -4,6 +4,8 @@ import path from "path";
 import pkg from "fs-extra";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import dotenv from "dotenv";
+dotenv.config();
 
 const { readFile } = pkg;
 // org or owner
@@ -14,7 +16,7 @@ const COMMIT_MESSAGE = "Auto generated";
 
 const main = async () => {
   const octo = new Octokit({
-    auth: "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",
+    auth: process.env.GITHUB_TOKEN,
   });
   // listForOrg(org) or listForUser(username)
   const repos = await octo.rest.repos.listForOrg({
@@ -42,7 +44,7 @@ const createRepo = async (octo, org, name) => {
 const uploadToRepo = async (octo, coursePath, org, repo, branch) => {
   // gets commit's AND its tree's SHA
   const currentCommit = await getCurrentCommit(octo, org, repo, branch);
-  const filesPaths = await globby(["*", "/*", "!node_modules"]);
+  const filesPaths = await globby("*");
   const filesBlobs = await Promise.all(
     filesPaths.map(createBlobForFile(octo, org, repo))
   );
